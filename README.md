@@ -9,7 +9,7 @@ The official implementation version of "Learning Like a Human: Zero-Shot Persona
 2. Create conda environment:
       ```
       conda create -y -n main python=3.9
-      conda activate ADAR-Seg
+      conda activate Zero-shot
       ```
 3. Install pytorch 1.13.0
       ```
@@ -23,19 +23,15 @@ The official implementation version of "Learning Like a Human: Zero-Shot Persona
     ```
    
 7. Install the additional dependencies:
-      ```
-      cd main/
-      pip install -r requirements.txt
-      ```
-7. Install `pytorch-scatter` with torch 1.13.0 and CUDA 11.7:
-      ```
-      pip install torch-scatter -f https://data.pyg.org/whl/torch-1.13.0+cu117.html
-      ```
+   ```
+   pip install -e .
+   ```
 
-8. Install
-      ```
-      pip install -e ./
-      ```
+   ```
+   cd Tech-NeuralCD
+   pip install -r requirements.txt
+   ```
+      
 # 2. Data
 
 Please download the following data into a folder e.g. `/data` and unzip:
@@ -44,9 +40,11 @@ Please download the following data into a folder e.g. `/data` and unzip:
 
 - **MOOCCube Dataset** and **MOOCCourse Dataset** from http://moocdata.cn/data/MOOCCube.
 
-- [KITTI Odometry Benchmark](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) calibration data (Download odometry data set `(calibration files, 1 MB)`). 
-
-- [KITTI Odometry Benchmark](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) Velodyne data (Download odometry data set  `(velodyne laser data, 80 GB)`).
+# 3. To train TechCD:
+```
+cd Tech-NeuralCD
+python train.py
+```
 
 ## Quick start
 
@@ -81,7 +79,7 @@ If you have an [OpenAI API key](https://platform.openai.com/api-keys) key you ca
 llm keys set openai
 
 # Run a prompt (with the default gpt-4o-mini model)
-llm "Ten fun names for a pet pelican"
+llm "Please recommend a course learning path for me to learn Python!"
 
 # Extract text from an image
 llm "extract text" -a scanned-document.jpg
