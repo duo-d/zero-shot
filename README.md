@@ -40,11 +40,6 @@ Please download the following data into a folder e.g. `/data` and unzip:
 
 - **MOOCCube Dataset** and **MOOCCourse Dataset** from http://moocdata.cn/data/MOOCCube.
 
-# 3. To train TechCD:
-```
-cd Tech-NeuralCD
-python train.py
-```
 
 ## Quick start
 
@@ -120,4 +115,15 @@ Type '!fragment <my_fragment> [<another_fragment> ...]' to insert one or more fr
 Why don't pelicans like to tip waiters?
 
 Because they always have a big bill!
+```
+
+# 3. Train:
+```
+cd Tech-NeuralCD
+python train.py
+```
+
+# 4. Test:
+```
+cd test/test_chat.py
 ```
