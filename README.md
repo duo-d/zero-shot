@@ -138,5 +138,5 @@ python train.py
 
 # 4. Test:
 ```
-cd test/test_chat.py
+cd Code/main.py
 ```
