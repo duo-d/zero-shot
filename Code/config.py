@@ -1,17 +1,17 @@
 import os
 
-# 项目根目录
+# Project root directory
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# 数据集路径
+# Data set path
 
 DATA_PATH = os.path.join(BASE_DIR, '../data/demo')
-# 结果路径
+# Result Path
 RESULT_PATH = os.path.join(BASE_DIR, 'simulation')
 
-# OpenAI 配置
+# OpenAI Configuration
 OPENAI_API_KEY = ''
 
-# 模拟参数
+# Simulation Parameters
 SIM_PARAMS = {
     'memory_source':    'real',
     'learning_effect':  'yes',
