@@ -43,6 +43,19 @@ Please download the following data into a folder e.g. `/data` and unzip:
 
 ## Quick start
 
+# Key Components
+```bash
+cd Code
+├── action.py           # The AgentAction class (this file)
+├── llm_client.py       # Wrapper for LLM calls (e.g., OpenAI API)
+├── config.py           # Configuration file (API key, simulation parameters)
+└── profile.py          # learner profile
+```
+AgentAction Module: Simulates learner decisions, problem-solving, and reflections.
+Memory Module: Tracks short-term and long-term knowledge mastery, supports reinforcement and forgetting effects.
+Profile Module: Maintains a cognitive diagnosis-based learner profile.
+LLM Client: Calls large language models for reasoning and generating task outputs.
+
 First, install LLM using `pip` or Homebrew or `pipx` or `uv`:
 
 ```bash
