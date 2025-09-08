@@ -9,15 +9,15 @@ def save_json(path, data):
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4)
 
-# 以下为论文中 Memory Module 所需的相似度判定函数示例
+# The following is an example of the similarity determination function required for the Memory Module in the paper.
 def compute_similarity(record, memory_list, kcg, know_course_list):
     '''
-    计算 record 与 memory_list 中每条事实的知识点相似度。
-    kcg: 知识点关联图（元组对集合）
-    know_course_list: 知识点->课程 映射
+    Calculate the similarity between each fact in record and memory_list and the knowledge points.
+    kcg: Knowledge Point Association Graph (Set of Tuple Pairs)
+    know_course_list: Knowledge Point -> Course mapping
     record: [text, concept, correct_flag, counter]
     memory_list: [[text, concept, correct_flag, counter], ...]
-    返回: [0/1 列表]
+    Returns: [0/1 list]
     '''
     sim = []
     rec = record[1].lower().strip().replace('\"','')
@@ -28,13 +28,13 @@ def compute_similarity(record, memory_list, kcg, know_course_list):
         if (rec_id, mem_id) in kcg or (mem_id, rec_id) in kcg:
             sim.append(1)
         else:
-            # 同一课程内，有 20% 概率认为相似
+            # Within the same course, there is a 20% probability of being considered similar.
             if rec_id == mem_id and random.random() > 0.8:
                 sim.append(1)
             else:
                 sim.append(0)
     return sim
 
-# 可选：基于 LLM 的相似度判断（如需更精确的文本相似度，可调用 _response_llm_gpt）
+# Optional: LLM-based similarity assessment (for more precise text similarity, call _response_llm_gpt)
 # def llm_compute_similarity(record, memory_list, llm_client):
 #     pass
