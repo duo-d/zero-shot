@@ -4,7 +4,7 @@ from config import DATA_PATH
 class Profile:
     """
     Learner Profile Module (§4.1.4.2)
-    提取 explicit practice styles 和 implicit ability
+    Extract explicit practice styles and implicit ability
     """
     def __init__(self, agent_id):
         path = f"{DATA_PATH}/profile.json"
