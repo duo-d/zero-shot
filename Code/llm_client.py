@@ -4,8 +4,8 @@ from config import OPENAI_API_KEY, SIM_PARAMS
 
 class LLMClient:
     """
-    LLM 接口调用封装模块
-    用于统一处理 GPT / DeepSeek 等模型的调用
+    LLM Interface Invocation Encapsulation Module
+    Used for unified handling of model invocations such as GPT / DeepSeek
     """
     def __init__(self):
         openai.api_key = OPENAI_API_KEY
