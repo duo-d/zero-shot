@@ -2,7 +2,7 @@ import math, random
 from config import SIM_PARAMS
 
 class Memory:
-    """Memory Module：Factual/Short/Long + 检索/写入/反思"""
+    """Memory Module：Factual/Short/Long + Retrieve/Write/Reflect"""
     def __init__(self, KCG, know_course_list, know_name):
         self.factual = []
         self.short = []
@@ -20,11 +20,11 @@ class Memory:
         self.know_name = know_name
 
     def write_factual(self, record):
-        # 写入新的观察
+        # Write new observations
         self.factual.append(record)
 
     def retrieve_short(self):
-        # 返回最近 s 条
+        # Return the most recent s entries
         self.short = self.factual[-self.short_size:]
         return self.short
 
@@ -66,22 +66,22 @@ class Memory:
         return sim
         
     def summarize_similarity_llm(self, record):
-        # TODO: 调用 LLM 相似度或自定义相似度逻辑
-        # 返回与 self.factual 对应的 0/1 列表
+        # TODO: Invoke LLM similarity or custom similarity logic
+        # Return a list of 0/1 values corresponding to self.factual
         # sim = [0]*len(self.factual)
         # return sim
         pass
 
     def reinforce(self, record):      
-        # 1) 相似度
+        # 1) Similarity
         sim_list = self.summarize_similarity_llm_kcg(record)
-        # 2) 增强旧事实
+        # 2) Enhance existing facts
         for i, sim in enumerate(sim_list):
             self.factual[i][3] += sim
-        # 3) 添加新事实
+        # 3) Add new facts
         max_count = max((r[3] for r in self.factual), default=1)
         self.factual.append([record[0], record[1], record[2], max_count])
-        # 4) 迁移到长时记忆
+        # 4) Transfer to long-term memory
         existing = {f[-1] for f in self.long['significant_facts']}
         for idx, rec in enumerate(self.factual):
             if rec[3]>=self.threshold and (idx+1) not in existing:
