@@ -6,7 +6,7 @@ from llm_client import LLMClient
 class AgentAction:
     """
     Action Module (§4.1.4.2)
-    Task1~Task4 模拟，并调用 Memory 的检索、写入与反思
+    Task1~Task4: Simulate and invoke Memory's retrieval, writing, and reflection operations.
     """
     def __init__(self, profile, memory):
         self.profile = profile
@@ -30,17 +30,17 @@ class AgentAction:
             {'role': 'user', 'content': prompt}
         ]
 
-        # 3. LLM 生成 Task1~Task4
+        # 3. LLM Generated Task1~Task4
         resp = self._call_llm(messages)
 
-        # 4. 解析结果
+        # 4. Analysis Results
         ans = {}
         for i in range(1, 5):
             tag = f'Task{i}:'
             if tag in resp:
                 ans[f'task{i}'] = resp.split(tag)[1].split('\n')[0].strip()
 
-        # 5. Memory Writing: 写入 factual
+        # 5. Memory Writing: write factual
         record = [
             practice['exer_content'],
             practice['know_name'],
@@ -49,7 +49,7 @@ class AgentAction:
         ]
         self.memory.write_factual(record)
 
-        # 6. Memory Reinforcement & Long-term 更新
+        # 6. Memory Reinforcement & Long-term update
         # sims = similarity_fn(record)
         if SIM_PARAMS['learning_effect'] == 'yes':
             self.memory.reinforce(record)
@@ -76,16 +76,16 @@ class AgentAction:
         self.memory.write_long_summary(summary)
         self.memory.write_know(practice)
 
-        # 10. 返回
+        # 10. Return
         return ans, resp, corrective, summary
 
     def _build_prompt(self, practice, short_mem, long_mem):
         """
-        构建符合论文 Task1~Task4 要求的 Prompt，依次包括：
-        1. Profile 提示
-        2. Short-term Memory 检索结果
-        3. Long-term Memory 检索结果 (强化事实、知识熟练度、学习状态)
-        4. 练习内容与四项任务说明
+        Construct a prompt that meets the requirements of Tasks 1–4 in the paper, including the following in sequence:
+        1. Profile Prompt
+        2. Short-term Memory Search results
+        3. Long-term Memory Search results (Enhancing factual knowledge, mastery of knowledge, and learning state)
+        4. Practice Content and Four Task Descriptions
         """
         prompt = (
             f"Recommended Exercise:\n"
@@ -93,14 +93,14 @@ class AgentAction:
             f"- Knowledge Concept (true): {practice['know_name']}\n"
         )
 
-        # Task1: Cognition-driven Action 提示
+        # Task1: Cognition-driven Action Prompt
         prompt += (
             "\nTask 1: Based on your Profile and Knowledge Proficiency, "
             "decide whether you want to attempt this exercise. "
             "If too difficult, output 'No'; otherwise, output 'Yes'.\n"
         )
 
-        # 短期记忆展示
+        # Short-Term Memory Demonstration
         if short_mem:
             prompt += "\nYour Short-term Memory (recent facts):\n"
             for idx, r in enumerate(short_mem, 1):
@@ -109,7 +109,7 @@ class AgentAction:
                 )
             prompt += "\n"
 
-        # Task2: 概念识别提示
+        # Task2: Concept Recognition Prompt
         prompt += (
             "Task 2: Identify the knowledge concept tested by this exercise. "
             "Choose one from the following options:\n"
@@ -119,7 +119,7 @@ class AgentAction:
             prompt += f" - {opt}\n"
         prompt += "Only output the concept name.\n"
 
-        # 强化事实与学习状态
+        # Strengthening facts and learning states
         if long_mem.get('significant_facts'):
             prompt += "\nYour Long-term Memory (reinforced facts):\n"
             for idx, f in enumerate(long_mem['significant_facts'], 1):
@@ -130,18 +130,18 @@ class AgentAction:
                 f"{long_mem['learning_status'][-1]}\n"
             )
 
-        # Task3: 解题思路与答案
+        # Task3: Problem-Solving Approach and Answer
         prompt += (
             "\nTask 3: Propose a concise problem-solving idea based on your Profile and Memories, "
             "then give a final answer.\n"
         )
         
-        # Task4: 正确率预测
+        # Task4: Accuracy Prediction
         prompt += (
             "\nTask 4: Predict whether you will answer correctly ('Yes' or 'No') based on the idea.\n"
         )
 
-        # 输出格式说明
+        # Output Format Specifications
         prompt += (
             "\nOutput format exactly as:\n"
             "Task1: <Yes/No>\n"
