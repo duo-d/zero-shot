@@ -43,7 +43,7 @@ Please download the following data into a folder e.g. `/data` and unzip:
 
 ## Quick start
 
-# Key Components
+### Key Components
 ```bash
 cd Code
 ├── action.py           # The AgentAction class (this file)
