@@ -13,7 +13,7 @@ class NodeApplyModule(nn.Module):
     def __init__(self, in_feats, out_feats, activation):
         super(NodeApplyModule, self).__init__()
         self.linear = nn.Linear(in_feats, out_feats)
-        self.activation = activation # 激励函数
+        self.activation = activation
 
     def forward(self, node):
         h = self.linear(node.data["h"])
